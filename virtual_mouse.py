@@ -20,7 +20,7 @@ height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 tipIds = [4,8,12,16,20]
 
-pinch = None
+pinch = False
 
 #função para contar os dedos abertos na mão >=)
 def count_fingers(image,hand_landmarks,handNo = 0):
@@ -71,16 +71,14 @@ def count_fingers(image,hand_landmarks,handNo = 0):
         #Roberta
 		# Calcule a DISTÂNCIA entre a PONTA DO DEDO e a PONTA DO POLEGAR
 		# D = v[(x2-x1)² + (y2-y1)²]
-        distance = math.sqrt((fingerTipX-thumbTipX)**2 + (fingerTipY-thumbTipY)**2)
-        #print(distance)
+        distance = math.sqrt(((fingerTipX-thumbTipX)**2) + ((fingerTipY-thumbTipY)**2))
+        print(distance)
         
 		# Defina a posição do mouse na tela em relação ao tamanho da janela de resultado
         relative_mouse_x = (centerX/width)*screen_width
         relative_mouse_y = (centerY/height)*screen_height
         mouse.position = (relative_mouse_x, relative_mouse_y)
 
-        #Marcos
-		# Verifique as condições de formação da PINÇA
         if distance > 40 :
             if pinch == True:
                 pinch = False
@@ -90,6 +88,11 @@ def count_fingers(image,hand_landmarks,handNo = 0):
             if pinch == False:
                 pinch = True
                 mouse.press(Button.left)
+        print(pinch)
+
+        #Marcos
+		# Verifique as condições de formação da PINÇA
+        
 
 
 def drawHandLandmarks(image, hand_landmarks):
